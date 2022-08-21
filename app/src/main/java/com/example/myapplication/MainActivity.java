@@ -3,9 +3,11 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.AsyncTaskLoader;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         String contact_email = c.getString("contact_email");
                         String engineer_email = c.getString("engineer_email");
                         String added_by = c.getString("added_by");
+                        String devices_count = c.getString("devices_count");
 
                         // tmp hash map for single contact
                         HashMap<String, String> contact = new HashMap<>();
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         contact.put("contact_email", contact_email);
                         contact.put("engineer_email", engineer_email);
                         contact.put("added_by", added_by);
+                        contact.put("devices_count", devices_count);
 
 
                         // adding contact to contact list
@@ -115,9 +119,17 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             ListAdapter adapter = new SimpleAdapter(MainActivity.this, customerList,
-                    R.layout.list_customers, new String[]{ "name","contact_email", "engineer_email", "added_by"},
-                    new int[]{R.id.customer_id, R.id.email1_text, R.id.email2_text});
+                    R.layout.list_customers, new String[]{ "name","contact_email", "engineer_email",  "devices_count"},
+                    new int[]{R.id.customer_id, R.id.email1_text, R.id.email2_text, R.id.device_count_text});
             lv.setAdapter(adapter);
         }
+
+    }
+
+
+    public void showDevices(View view){
+        Intent intent = new Intent(this, showDevices.class
+        );
+        startActivity(intent);
     }
 }
