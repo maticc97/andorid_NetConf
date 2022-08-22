@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -28,7 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     private ListView lv;
 
+    public String selected_cust;
+
     ArrayList<HashMap<String, String>> customerList;
+
+
+
 
 
     @Override
@@ -39,14 +46,34 @@ public class MainActivity extends AppCompatActivity {
         customerList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);
 
+        //set on List items event listener
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //start new activity
+                Intent intent = new Intent(MainActivity.this, showDevices.class);
+
+                //pass variable to another activity
+                intent.putExtra("customer", customerList.get(i).get("name"));
+                startActivity(intent);
+            }
+        });
+
+
         new getCustomers().execute();
+
+
+
     }
+
 
     private class getCustomers extends AsyncTask<Void, Void, Void> {
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(MainActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Json Data is downloading", Toast.LENGTH_LONG).show();
         }
+
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
@@ -86,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // adding contact to contact list
                         customerList.add(contact);
+
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -119,17 +147,12 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             ListAdapter adapter = new SimpleAdapter(MainActivity.this, customerList,
-                    R.layout.list_customers, new String[]{ "name","contact_email", "engineer_email",  "devices_count"},
+                    R.layout.list_customers, new String[]{"name", "contact_email", "engineer_email", "devices_count"},
                     new int[]{R.id.customer_id, R.id.email1_text, R.id.email2_text, R.id.device_count_text});
             lv.setAdapter(adapter);
+
         }
 
     }
 
-
-    public void showDevices(View view){
-        Intent intent = new Intent(this, showDevices.class
-        );
-        startActivity(intent);
-    }
 }

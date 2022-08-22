@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:descendantFocusability = "blocksDescendants">
 
     <TextView
         android:paddingTop="20px"
@@ -73,10 +74,10 @@
         android:textStyle="bold" />
 
     <Button
+        android:id="@+id/show_devices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/device_count_text"
-        android:onClick="showDevices"
         android:text="Show devices"/>
 
 </RelativeLayout>
