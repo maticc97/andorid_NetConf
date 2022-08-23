@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".showDevices"
     android:padding="10dp">
 
     <TextView
         android:paddingTop="20px"
         android:layout_width="match_parent"
-        android:id="@+id/device_id"
+        android:id="@+id/hostname"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:text="Stikalo 1 pritlicje"
@@ -21,7 +21,7 @@
         android:id="@+id/device_type_label"
         android:layout_width="158dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/device_id"
+        android:layout_below="@id/hostname"
         android:paddingTop="20px"
         android:text="Type:"
         android:textStyle="bold" />
@@ -29,7 +29,7 @@
         android:id="@+id/type_text"
         android:layout_width="158dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/device_id"
+        android:layout_below="@id/hostname"
         android:layout_toRightOf="@id/device_type_label"
         android:paddingTop="20px"
         android:text="custo1_info@email.com" />
@@ -63,7 +63,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/device_count_text"
+        android:id="@+id/added_by_text"
         android:layout_width="158dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/ip_addr_text"
@@ -74,7 +74,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/device_count_text"
+        android:layout_below="@id/added_by_label"
         android:text="Show configuration"/>
 
 </RelativeLayout>

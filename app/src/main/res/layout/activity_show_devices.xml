@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".showDevices">
     <TextView
-        android:id="@+id/devices_customer"
+        android:id="@+id/customer_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Devices"
@@ -16,11 +16,11 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/devices_customer"/>
+        android:layout_below="@id/customer_label"/>
 
 
     <ListView
-        android:layout_below="@id/devices_customer"
+        android:layout_below="@id/customer_label"
         android:id="@+id/list_devices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
