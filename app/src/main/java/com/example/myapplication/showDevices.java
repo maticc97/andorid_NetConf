@@ -2,10 +2,13 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -51,6 +54,20 @@ public class showDevices extends AppCompatActivity {
                 Toast.LENGTH_LONG);
 
 
+        //set on List items event listener
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //start new activity
+                Intent intent = new Intent(showDevices.this, showDetail.class);
+
+                //pass variable to another activity
+                intent.putExtra("device_id", devicesList.get(i).get("_id"));
+                startActivity(intent);
+            }
+        });
+
 
         new getDevices().execute();
 
@@ -65,7 +82,7 @@ public class showDevices extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://192.168.1.143:5000/api/v1/customers/"+selectedCustomer+"/devices/";
+            String url = "http://192.168.1.105:5000/api/v1/customers/"+selectedCustomer+"/devices/";
             String jsonStr = sh.makeServiceCall(url);
 
 
