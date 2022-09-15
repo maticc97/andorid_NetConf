@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/device_count_text"
             android:background="@drawable/back"
-            android:maxHeight="100dp"
+            android:maxHeight="300dp"
             android:text="Show devices asdasd asd asd asd asd asd asd asd
 asdasdasdasdasdasd Show devices asdasd asd asd asd asd asd asd asd
 asdasdasdasdasdasdShow devices asdasd asd asd asd asd asd asd asd

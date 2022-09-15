@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://192.168.1.105:5000/api/v1/customers";
+            String url = "http://192.168.1.143:5000/api/v1/customers";
             String jsonStr = sh.makeServiceCall(url);
 
 

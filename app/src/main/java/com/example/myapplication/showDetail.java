@@ -61,7 +61,7 @@ public class showDetail extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://192.168.1.105:5000/api/v1/device/"+selected_device;
+            String url = "http://192.168.1.143:5000/api/v1/device/"+selected_device;
             String jsonStr = sh.makeServiceCall(url);
 
             if (jsonStr != null) {
