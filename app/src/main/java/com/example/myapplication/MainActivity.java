@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     private ListView lv;
 
-    public String selected_cust;
-
     ArrayList<HashMap<String, String>> customerList;
 
 
