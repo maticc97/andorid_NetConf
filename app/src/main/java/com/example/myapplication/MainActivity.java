@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.AsyncTaskLoader;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    public static final String SHARED_PREFS = "sharedPrefs";
     private String TAG = MainActivity.class.getSimpleName();
     private ListView lv;
 
@@ -76,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://192.168.1.143:5000/api/v1/customers";
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            String API_URL =  sharedPreferences.getString("API_addr", "http://192.168.1.143:5000/api/v1/");
+            String url = API_URL+"customers";
+            Log.e("url", url);
             String jsonStr = sh.makeServiceCall(url);
 
 

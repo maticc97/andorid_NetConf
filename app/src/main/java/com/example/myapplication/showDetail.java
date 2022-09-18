@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class showDetail extends AppCompatActivity {
     TextView added_by;
     TextView config;
     ArrayList<HashMap<String, String>> devicesList;
+    public static final String SHARED_PREFS = "sharedPrefs";
 
 
     @Override
@@ -61,7 +63,10 @@ public class showDetail extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://192.168.1.143:5000/api/v1/device/"+selected_device;
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            String API_URL =  sharedPreferences.getString("API_addr", "http://192.168.1.143:5000/api/v1/");
+
+            String url = API_URL+"device/"+selected_device;
             String jsonStr = sh.makeServiceCall(url);
 
             if (jsonStr != null) {
