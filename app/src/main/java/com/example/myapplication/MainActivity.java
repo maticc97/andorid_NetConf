@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "sharedPrefs";
     private String TAG = MainActivity.class.getSimpleName();
     private ListView lv;
+    private String tkn;
+
+
+
 
     ArrayList<HashMap<String, String>> customerList;
 
@@ -41,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        tkn =  sharedPreferences.getString("token", "");
+        Toast.makeText(MainActivity.this, tkn, Toast.LENGTH_LONG).show();
+        Log.d("token", tkn);
 
         customerList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);
@@ -81,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             String API_URL =  sharedPreferences.getString("API_addr", "http://192.168.1.143:5000/api/v1/");
             String url = API_URL+"customers";
             Log.e("url", url);
-            String jsonStr = sh.makeServiceCall(url);
+            String jsonStr = sh.makeServiceCall(url, tkn);
 
 
             Log.e(TAG, "Response from url: " + jsonStr);

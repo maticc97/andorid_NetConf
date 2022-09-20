@@ -12,5 +12,5 @@ public interface RetrofitAPI {
     @POST("login")
 
     //on below line we are creating a method to post our data.
-    Call<ResponseBody> createPost(@Body DataModal dataModal);
+    Call<token> createPost(@Body loginUser loginUser);
 }

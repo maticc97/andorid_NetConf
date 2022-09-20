@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -28,6 +29,7 @@ public class Login extends AppCompatActivity {
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String isLogedIn = "isLogedIn";
+    public static final String token = "token";
 
     public Boolean result;
     public EditText username_editext;
@@ -52,7 +54,6 @@ public class Login extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         result = sharedPreferences.getBoolean(isLogedIn, false);
-
 
 
         if (result) {
@@ -127,49 +128,42 @@ public class Login extends AppCompatActivity {
                 RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
                 // passing data from our text fields to our modal class.
-                DataModal modal = new DataModal(username, passwd);
+                loginUser user = new loginUser();
+                user.setUser(username,  passwd);
 
                 // calling a method to create a post and passing our modal class.
-                Call<ResponseBody> call = retrofitAPI.createPost(modal);
+                Call<token> call = retrofitAPI.createPost(user);
                 Log.e("call", "a" + username);
 
                 // on below line we are executing our method.
-                call.enqueue(new Callback<ResponseBody>() {
+                call.enqueue(new Callback<token>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        // this method is called when we get response from our api.
-                        if (response.code() == 200) {
-                            try {
-                                String s = response.body().string();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        Toast.makeText(Login.this, "Data added to API" + response.body(), Toast.LENGTH_SHORT).show();
-
-
+                    public void onResponse(@NonNull Call<token> call, @NonNull Response<token> response) {
                         // we are getting response from our body
-                        // and passing it to our modal class.
-                        ResponseBody responseFromAPI = response.body();
+                       // and passing it to our modal class.
+
+                        String tkn = response.body().getToken();
 
                         // on below line we are getting our data from modal class and adding it to our string.
-                        if(response.code() == 200){
+                        if(response.code() == 200 && tkn != null){
                             SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
 
                             editor.putBoolean(isLogedIn, true);
+                            editor.putString(token, tkn);
                             editor.commit();
                             Intent intent = new Intent(Login.this, MainActivity.class);
+                            Log.e("aa", "aa" + response.body());
                             startActivity(intent);
+                            Toast.makeText(Login.this, "Successfully LOGED IN, TOKEN STORED", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(Login.this, "AUTH FAILED", Toast.LENGTH_SHORT).show();
                         }
-                        // below line we are setting our
                         // string to our text view.
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    public void onFailure(Call<token> call, Throwable t) {
                         Log.e("aa", "aa");
                     }
                 });

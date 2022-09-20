@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,8 @@ public class showDevices extends AppCompatActivity {
     String selectedCustomer;
     private String TAG = showDevices.class.getSimpleName();
     private ListView lv;
+    public static final String SHARED_PREFS = "sharedPrefs";
+    private String tkn;
 
     ArrayList<HashMap<String, String>> devicesList;
 
@@ -40,6 +43,9 @@ public class showDevices extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_devices);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        tkn =  sharedPreferences.getString("token", "");
 
         lv = (ListView) findViewById(R.id.list_devices);
         devicesList = new ArrayList<>();
@@ -83,7 +89,7 @@ public class showDevices extends AppCompatActivity {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
             String url = "http://192.168.1.143:5000/api/v1/customers/"+selectedCustomer+"/devices/";
-            String jsonStr = sh.makeServiceCall(url);
+            String jsonStr = sh.makeServiceCall(url, tkn);
 
 
             Log.e(TAG, "Response from url: " + jsonStr);
