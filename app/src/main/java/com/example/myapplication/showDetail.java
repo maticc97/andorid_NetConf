@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +31,8 @@ public class showDetail extends AppCompatActivity {
     TextView added_by;
     TextView config;
     ArrayList<HashMap<String, String>> devicesList;
+    public static final String SHARED_PREFS = "sharedPrefs";
+    private String tkn;
 
 
     @Override
@@ -36,6 +40,16 @@ public class showDetail extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        tkn =  sharedPreferences.getString("token", "");
+
+        if (tkn == null){
+            Intent intent = new Intent(showDetail.this, Login.class);
+
+            //pass variable to another activity
+            startActivity(intent);
+        }
 
         hostname = findViewById(R.id.hostname);
         ip_addr = findViewById(R.id.ip_addr_text);
@@ -61,8 +75,11 @@ public class showDetail extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://192.168.1.143:5000/api/v1/device/"+selected_device;
-            String jsonStr = sh.makeServiceCall(url);
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            String API_URL =  sharedPreferences.getString("API_addr", "http://192.168.1.143:5000/api/v1/");
+
+            String url = API_URL+"device/"+selected_device;
+            String jsonStr = sh.makeServiceCall(url, tkn);
 
             if (jsonStr != null) {
 
@@ -72,6 +89,7 @@ public class showDetail extends AppCompatActivity {
                     ip_addr.setText(obj.getString("ip_address"));
                     added_by.setText(obj.getString("added_by"));
                     config.setText(obj.getString("config"));
+                    type_text.setText(obj.getString("type"));
 
                     Log.e(TAG, "Couldn't get json from server." + obj.getString("hostname"));
                 } catch (JSONException e) {

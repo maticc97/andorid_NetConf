@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.AsyncTaskLoader;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,20 +27,30 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    public static final String SHARED_PREFS = "sharedPrefs";
     private String TAG = MainActivity.class.getSimpleName();
     private ListView lv;
+    private String tkn;
 
     ArrayList<HashMap<String, String>> customerList;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        tkn =  sharedPreferences.getString("token", "");
+        Toast.makeText(MainActivity.this, tkn, Toast.LENGTH_LONG).show();
+        Log.e("token", tkn);
+        //check if token is valid
+        if (tkn == null){
+            Intent intent = new Intent(MainActivity.this, Login.class);
+
+            //pass variable to another activity
+            startActivity(intent);
+        }
 
         customerList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);
@@ -76,8 +87,11 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://192.168.1.143:5000/api/v1/customers";
-            String jsonStr = sh.makeServiceCall(url);
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            String API_URL =  sharedPreferences.getString("API_addr", "http://192.168.1.143:5000/api/v1/");
+            String url = API_URL+"customers";
+            Log.e("url", url);
+            String jsonStr = sh.makeServiceCall(url, tkn);
 
 
             Log.e(TAG, "Response from url: " + jsonStr);
