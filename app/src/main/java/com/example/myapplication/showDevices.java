@@ -47,6 +47,13 @@ public class showDevices extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         tkn =  sharedPreferences.getString("token", "");
 
+        if (tkn == null){
+            Intent intent = new Intent(showDevices.this, Login.class);
+
+            //pass variable to another activity
+            startActivity(intent);
+        }
+
         lv = (ListView) findViewById(R.id.list_devices);
         devicesList = new ArrayList<>();
 

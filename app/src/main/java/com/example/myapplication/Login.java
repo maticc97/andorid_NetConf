@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -142,7 +143,13 @@ public class Login extends AppCompatActivity {
                         // we are getting response from our body
                        // and passing it to our modal class.
 
-                        String tkn = response.body().getToken();
+                        String tkn = null;
+                        token tookn =  response.body();
+
+                        //if there is no response,
+                        if(tookn!=null){
+                            tkn = tookn.getToken();
+                        }
 
                         // on below line we are getting our data from modal class and adding it to our string.
                         if(response.code() == 200 && tkn != null){
@@ -157,7 +164,7 @@ public class Login extends AppCompatActivity {
                             startActivity(intent);
                             Toast.makeText(Login.this, "Successfully LOGED IN, TOKEN STORED", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(Login.this, "AUTH FAILED", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "AUTH FAILEDEDED", Toast.LENGTH_SHORT).show();
                         }
                         // string to our text view.
                     }

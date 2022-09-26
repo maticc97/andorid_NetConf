@@ -32,14 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView lv;
     private String tkn;
 
-
-
-
     ArrayList<HashMap<String, String>> customerList;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +43,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         tkn =  sharedPreferences.getString("token", "");
         Toast.makeText(MainActivity.this, tkn, Toast.LENGTH_LONG).show();
-        Log.d("token", tkn);
+        Log.e("token", tkn);
+        //check if token is valid
+        if (tkn == null){
+            Intent intent = new Intent(MainActivity.this, Login.class);
+
+            //pass variable to another activity
+            startActivity(intent);
+        }
 
         customerList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);

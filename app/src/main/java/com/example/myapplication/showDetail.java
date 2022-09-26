@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,6 +44,13 @@ public class showDetail extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         tkn =  sharedPreferences.getString("token", "");
 
+        if (tkn == null){
+            Intent intent = new Intent(showDetail.this, Login.class);
+
+            //pass variable to another activity
+            startActivity(intent);
+        }
+
         hostname = findViewById(R.id.hostname);
         ip_addr = findViewById(R.id.ip_addr_text);
         type_text = findViewById(R.id.type_text);
@@ -81,6 +89,7 @@ public class showDetail extends AppCompatActivity {
                     ip_addr.setText(obj.getString("ip_address"));
                     added_by.setText(obj.getString("added_by"));
                     config.setText(obj.getString("config"));
+                    type_text.setText(obj.getString("type"));
 
                     Log.e(TAG, "Couldn't get json from server." + obj.getString("hostname"));
                 } catch (JSONException e) {
