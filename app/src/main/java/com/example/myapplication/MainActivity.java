@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        //create new array list
         customerList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);
 
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             String jsonStr = sh.makeServiceCall(url, tkn);
 
 
-            Log.e(TAG, "Response from url: " + jsonStr);
+            //Log.e(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
 
                 try {
