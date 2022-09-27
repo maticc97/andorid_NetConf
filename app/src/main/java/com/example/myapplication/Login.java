@@ -38,7 +38,9 @@ public class Login extends AppCompatActivity {
     public String username;
     public String passwd;
 
-    public String API_IP_ADDR = "http://192.168.1.143:5000/api/v1/";
+
+    //change to PC's IP address
+    public String API_IP_ADDR = "http://172.20.10.2:5000/api/v1/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +118,7 @@ public class Login extends AppCompatActivity {
                 // on below line we are creating a retrofit
                 // builder and passing our base url
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                String API_URL =  sharedPreferences.getString("API_addr", "http://192.168.1.143:5000/api/v1/");
+                String API_URL =  sharedPreferences.getString("API_addr", "");
                 String url = API_URL;
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(url)
